@@ -1,0 +1,58 @@
+# =========================
+# 4. Konfigurasi proFTPD
+# =========================
+
+echo "Setting up ProFTPD configuration..."
+cat > /etc/proftpd/proftpd.conf <<EOL
+# /etc/proftpd/proftpd.conf -- Simplified configuration
+
+# Includes DSO modules
+Include /etc/proftpd/modules.conf
+
+UseIPv6				on
+IdentLookups		off
+
+ServerName			"ftp.smkth18760.lab"
+ServerType			standalone
+DeferWelcome		off
+
+TimeoutNoTransfer	600
+TimeoutStalled		600
+TimeoutIdle			1200
+
+MaxInstances		30
+User				proftpd
+Group				nogroup
+
+Umask				022  022
+AllowOverwrite		on
+
+TransferLog			/var/log/proftpd/xferlog
+SystemLog			/var/log/proftpd/proftpd.log
+
+# Konfigurasi untuk pengguna yang bisa membuat folder
+<Anonymous /home/ftp>
+   User				uki
+   Group			uki
+   <Limit WRITE>
+       AllowAll
+   </Limit>
+</Anonymous>
+
+# Memberikan izin untuk membuat folder di direktori tertentu
+<Directory /home/ftp>
+   <Limit WRITE>
+       AllowAll
+   </Limit>
+   <Limit MKD>
+       AllowAll
+   </Limit>
+</Directory>
+
+Include /etc/proftpd/conf.d/
+EOL
+
+echo "Reloading and enabling ProFTPD service..."
+systemctl reload proftpd
+systemctl enable proftpd
+systemctl start proftpd
