@@ -1,2 +1,1 @@
-openssl req -x509 -days 365 -nodes -newkey rsa:2048 -keyout /home/myCA/certs/smkth18760.lab.crt -key /home/myCA/private/smkth18760.lab.key
-openssl req -x509 -days 365 -nodes -newkey rsa:2048 -keyout /home/myCA/certs/uki.smkth18760.lab.crt -key /home/myCA/private/uki.smkth18760.lab.key
+openssl req -x509 -days 365 -nodes -newkey rsa:2048 -out /etc/nginx/ssl/tjkt.crt -keyout /etc/nginx/ssl/tjkt.key
