@@ -2,6 +2,8 @@
 
 ![Ansible](https://img.shields.io/badge/Ansible-5C4EE5?style=for-the-badge&logo=ansible&logoColor=white)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
+
 
 Repository Ansible untuk mengotomasi deployment dan konfigurasi server dengan multiple services: **Nginx**, **Samba**, dan **ProFTPd**.
 
