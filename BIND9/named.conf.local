@@ -1,9 +1,0 @@
-zone "smkth18760.lab" {
-	type master;
-	file "/etc/bind/db.domain";
-};
-
-zone "1.168.192.in-addr.arpa" {
-	type master;
-	file "/etc/bind/db.ip";
-};

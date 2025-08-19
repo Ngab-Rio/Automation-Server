@@ -1,0 +1,9 @@
+- name: Setup Server
+  hosts: server_hosts
+  become: yes
+  vars_files:
+  - group_vars/all/vault.yml
+  roles:
+    - { role: nginx, tags: nginx }
+    - { role: samba, tags: samba }
+    - { role: proftpd, tags: proftpd }

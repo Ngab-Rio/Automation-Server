@@ -1,0 +1,45 @@
+- name: Load vault variables
+  include_vars: "../../../group_vars/all/vault.yml"
+- name: Update Repository
+  ansible.builtin.apt:
+    update_cache: true
+- name: Installing Package
+  ansible.builtin.apt:
+    name: samba
+    state: present
+- name: Create system user 'fileserver'
+  ansible.builtin.user:
+    name: fileserver
+    state: present
+    system: yes
+    create_home: no
+    shell: /usr/sbin/nologin
+- name: Set SAMBA Password For user
+  ansible.builtin.command:
+    cmd: "echo -e '{{ samba_password }}\n{{ samba_password }}' | smbpasswd -s -a fileserver"
+  no_log: true
+- name: Make Folder For SAMBA
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - { path: /tmp/datacenter, owner: fileserver, group: fileserver, mode: '0770' }
+    - { path: /tmp/datapublic, owner: nobody, group: nogroup, mode: '0755' }
+- name: Config SAMBA
+  ansible.builtin.copy:
+    src: ../files/samba.conf
+    dest: /etc/samba/ansible_smb.conf
+- name: Ensure include line exists in smb.conf
+  ansible.builtin.lineinfile:
+    path: /etc/samba/smb.conf
+    regexp: '^include\s*=\s*/etc/samba/ansible_smb.conf'
+    line: 'include = /etc/samba/ansible_smb.conf'
+    insertafter: '^\[global\]'
+    state: present
+- name: Restart SAMBA
+  ansible.builtin.service:
+    name: smbd
+    state: restarted

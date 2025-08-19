@@ -1,0 +1,18 @@
+- name: Update Repository
+  ansible.builtin.apt:
+    update_cache: true
+- name: Installing Package
+  ansible.builtin.apt:
+    name: proftpd-basic
+    state: present
+- name: Config File proftpd.conf
+  ansible.builtin.copy:
+    src: ../files/proftpd.conf
+    dest: /etc/proftpd/conf.d/proftpd-ansible.conf
+    owner: root 
+    group: root
+    mode: '0644'
+- name: Restart Service
+  ansible.builtin.service:
+    name: proftpd
+    state: restarted
