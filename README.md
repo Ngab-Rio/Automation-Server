@@ -9,8 +9,6 @@ Repository Ansible untuk mengotomasi deployment dan konfigurasi server dengan mu
 
 ## 📁 Project Structure
 ```bash
-❯ tree
-.
 ├── ansible.cfg
 ├── group_vars
 │   └── all
